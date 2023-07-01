@@ -19,3 +19,11 @@ message("source directory ${SRC_DIR}")
 # 目标文件
 ##################################################
 add_library(cetester ${SRC_DIR})
+
+##################################################
+# 安装目录
+##################################################
+# set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/../)
+install(TARGETS cetester DESTINATION lib)
+file(GLOB INC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+install(FILES ${INC_FILES} DESTINATION include/tester)
