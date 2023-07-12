@@ -31,3 +31,6 @@ add_library(cebase ${CEBASE_DIR})
 
 add_executable(files ce_files_test.cpp)
 target_link_libraries(files cetester cebase)
+
+add_executable(time ce_time_test.cpp)
+target_link_libraries(time cetester cebase)

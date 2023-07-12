@@ -33,11 +33,11 @@ namespace CETester {
 
 #define EXPECT_CSTR_EQ(s1, s2)                                          \
     AddRecord(new TesterRecord(std::string(#s1)+"=="+#s2, __LINE__,     \
-    strlen(s1)==strlen(s2) && memcmp(s1, s2, strlen(s1)) == 0))
+    strlen((char*)s1)==strlen((char*)s2) && memcmp(s1, s2, strlen((char*)s1)) == 0))
 
 #define EXPECT_CSTR_NE(s1, s2)                                          \
     AddRecord(new TesterRecord(std::string(#s1)+"!="+#s2, __LINE__,     \
-    strlen(s1)!=strlen(s2) || memcmp(s1, s2, strlen(s1)) != 0))
+    strlen((char*)s1)!=strlen((char*)s2) || memcmp(s1, s2, strlen((char*)s1)) != 0))
 
 #define EXPECT_FILESIZE(path, size) {                                   \
     struct stat st;                                                     \
