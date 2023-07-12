@@ -23,7 +23,6 @@ CE_TESTCASE(CEFileOpen) {
 
 CE_TESTCASE(CEWrite) {
     ce_file_t      *f;
-    struct stat     st;
 
     f = ce_file_open("test.txt", 1024*1024);
     char *content = (char *)"0123456789";
@@ -32,15 +31,13 @@ CE_TESTCASE(CEWrite) {
     for (int i = 0; i < 104857; ++i) {
         ce_file_write(f, content, 10);
         EXPECT_EQ(f->p - f->buffer, (i + 1) * 10);
-        fstat(f->fd, &st);
-        EXPECT_EQ(st.st_size, 0);
+        EXPECT_FILESIZE_FD(f->fd, 0);
     }
 
     // Buffer full, flush buffer
     ce_file_write(f, content, 10);
     EXPECT_EQ(f->p - f->buffer, 10);
-    fstat(f->fd, &st);
-    EXPECT_EQ(st.st_size, 1048570);
+    EXPECT_FILESIZE_FD(f->fd, 1048570);
 
     ce_file_close(f);
     remove("test.txt");
@@ -48,7 +45,6 @@ CE_TESTCASE(CEWrite) {
 
 CE_TESTCASE(CEFlush) {
     ce_file_t      *f;
-    struct stat     st;
 
     f = ce_file_open("test.txt", 1024*1024);
     char *content = (char *)"0123456789";
@@ -59,14 +55,12 @@ CE_TESTCASE(CEFlush) {
         ce_file_write(f, content, 10);
     }
     EXPECT_EQ(f->p - f->buffer, i * 10);
-    fstat(f->fd, &st);
-    EXPECT_EQ(st.st_size, 0);
+    EXPECT_FILESIZE_FD(f->fd, 0);
 
     // flush buffer
     ce_file_flush(f);
     EXPECT_EQ(f->p - f->buffer, 0);
-    fstat(f->fd, &st);
-    EXPECT_EQ(st.st_size, i * 10);
+    EXPECT_FILESIZE_FD(f->fd, i * 10);
 
     ce_file_close(f);
     remove("test.txt");
@@ -74,8 +68,6 @@ CE_TESTCASE(CEFlush) {
 
 CE_TESTCASE(CEClose) {
     ce_file_t      *f;
-    struct stat     st;
-    int             fd;
 
     f = ce_file_open("test.txt", 1024*1024);
     char *content = (char *)"0123456789";
@@ -86,23 +78,17 @@ CE_TESTCASE(CEClose) {
         ce_file_write(f, content, 10);
     }
     EXPECT_EQ(f->p - f->buffer, i * 10);
-    fstat(f->fd, &st);
-    EXPECT_EQ(st.st_size, 0);
+    EXPECT_FILESIZE_FD(f->fd, 0);
 
     ce_file_close(f);
 
-    fd = open("test.txt", O_WRONLY, 0644);
-    fstat(fd, &st);
-    EXPECT_EQ(st.st_size, i * 10);
-    close(fd);
+    EXPECT_FILESIZE("test.txt", i * 10);
 
     remove("test.txt");
 }
 
 CE_TESTCASE(CEReopen) {
     ce_file_t      *f;
-    struct stat     st;
-    int             fd;
 
     f = ce_file_open("test.txt", 2048*1024);
     char *content = (char *)"0123456789";
@@ -113,15 +99,13 @@ CE_TESTCASE(CEReopen) {
         ce_file_write(f, content, 10);
     }
     EXPECT_EQ(f->p - f->buffer, i * 10);
-    fstat(f->fd, &st);
-    EXPECT_EQ(st.st_size, 0);
+    EXPECT_FILESIZE_FD(f->fd, 0);
 
     ce_file_reopen(f);
 
     EXPECT_EQ(f->bufsize, 2048*1024);
     EXPECT_EQ(f->p - f->buffer, 0);
-    fstat(f->fd, &st);
-    EXPECT_EQ(st.st_size, i * 10);
+    EXPECT_FILESIZE_FD(f->fd, i * 10);
 
     ce_file_close(f);
     remove("test.txt");
