@@ -12,8 +12,10 @@ const unsigned char* loglevel_str[CE_LOG_MAXLEVEL] = {
 static int
 ce_log_level_check(int level) {
     if (level > CE_LOG_FATAL || level < CE_LOG_DEBUG) {
-        level = CE_LOG_INFO;
+        return CE_LOG_INFO;
     }
+
+    return level;
 }
 
 ce_log_t *
@@ -70,7 +72,7 @@ ce_log_core(ce_log_t *log, int level, const char *file, int line, const char *fo
 
     // content
     va_start(args, format);
-    p += snprintf(p, last - p, format, args);
+    p += vsnprintf(p, last - p, format, args);
     va_end(args);
     if (p == last) {
         printf("error log too long: %s\n", tmp);
@@ -97,6 +99,6 @@ ce_log_core(ce_log_t *log, int level, const char *file, int line, const char *fo
 
     // log to console
     if (log->output & CE_LOG_STD) {
-        write(STDOUT_FILENO, tmp, p - tmp);
+        size_t len = write(STDOUT_FILENO, tmp, p - tmp);
     }
 }

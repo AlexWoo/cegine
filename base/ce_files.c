@@ -42,7 +42,7 @@ ce_file_write(ce_file_t *f, const char *content, size_t size) {
 void
 ce_file_flush(ce_file_t *f) {
     // TODO 异常处理, file system is full
-    write(f->fd, f->buffer, f->p - f->buffer);
+    size_t len = write(f->fd, f->buffer, f->p - f->buffer);
     f->p = f->buffer;
 }
 

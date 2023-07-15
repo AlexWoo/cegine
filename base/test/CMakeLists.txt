@@ -34,3 +34,6 @@ target_link_libraries(files cetester cebase)
 
 add_executable(time ce_time_test.cpp)
 target_link_libraries(time cetester cebase)
+
+add_executable(log ce_log_test.cpp)
+target_link_libraries(log cetester cebase)
