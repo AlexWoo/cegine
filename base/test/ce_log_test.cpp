@@ -44,9 +44,10 @@ CE_TESTCASE(LogTest) {
     ce_log(log, CE_LOG_INFO,  "log info  test %s %d %p", "hello", 1000, log);
     ce_log(log, CE_LOG_ERROR, "log error test %s %d %p", "hello", 1000, log);
     ce_log(log, CE_LOG_FATAL, "log fatal test %s %d %p", "hello", 1000, log);
+    ce_log(log, CE_LOG_INFO,  "log empty");
     len = log->f->p - log->f->buffer;
     ce_log_close(log);
-    EXPECT_FILESIZE("test.log", len + 3); // Windows 下转行会添加 /r
+    EXPECT_FILESIZE("test.log", len + 4); // Windows 下转行会添加 /r
     remove("test.log");
 }
 

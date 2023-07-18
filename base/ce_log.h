@@ -31,6 +31,6 @@ void ce_log_close(ce_log_t *log);
 void ce_log_core(ce_log_t *log, int level, const char *file, int line, const char *format, ...);
 
 #define ce_log(log, level, format, ...)         \
-    ce_log_core(log, level, __FILE__, __LINE__, format, __VA_ARGS__)
+    ce_log_core(log, level, __FILE__, __LINE__, format, ##__VA_ARGS__)
 
 #endif
