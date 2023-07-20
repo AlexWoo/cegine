@@ -22,7 +22,7 @@ namespace CETester {
 
 #define TestPrint(format, ...)                                          \
     printf("    ");                                                     \
-    printf(format, __VA_ARGS__);                                      \
+    printf(format, ##__VA_ARGS__);                                      \
     printf("\n")
 
 #define EXPECT_EQ(v1, v2)                                               \

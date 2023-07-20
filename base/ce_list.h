@@ -21,7 +21,7 @@ typedef struct {
     (list)->size = 0;
 
 #define ce_list_empty(list)                     \
-    ((list)->size = 0)
+    ((list)->size == 0)
 
 #define ce_list_size(list)                      \
     (list)->size
@@ -32,8 +32,8 @@ typedef struct {
 #define ce_list_insert(list, node, newnode)     \
     (newnode)->next = node;                     \
     (newnode)->prev = (node)->prev;             \
-    (node)->prev->next = newnode;               \
     (node)->prev = newnode;                     \
+    (newnode)->prev->next = newnode;            \
     ++(list)->size;
 
 #define ce_list_delete(list, node)              \

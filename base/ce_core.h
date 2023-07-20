@@ -10,12 +10,12 @@ extern "C" {
 #include "ce_key.h"
 #include "ce_array.h"
 #include "ce_list.h"
-#include "ce_queue.h"
 #include "ce_rbtree.h"
 #include "ce_string.h"
 #include "ce_time.h"
 #include "ce_files.h"
 #include "ce_log.h"
+#include "ce_event.h"
 
 #define CE_VERSION 0.0.1
 
