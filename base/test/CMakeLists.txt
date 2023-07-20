@@ -29,6 +29,9 @@ message("base directory ${BASE_DIR}")
 add_library(cetester ${CETESTER_DIR})
 add_library(cebase ${CEBASE_DIR})
 
+add_executable(utils ce_utils_test.cpp)
+target_link_libraries(utils cetester cebase)
+
 add_executable(files ce_files_test.cpp)
 target_link_libraries(files cetester cebase)
 
