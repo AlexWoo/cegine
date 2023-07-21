@@ -14,6 +14,8 @@ set(ROOT_DIR ../../)
 include_directories(${ROOT_DIR}/tester ../)
 include_directories(${ROOT_DIR}/base ../)
 
+add_compile_options(-g)
+
 ##################################################
 # 源文件
 ##################################################
@@ -43,3 +45,6 @@ target_link_libraries(log cetester cebase)
 
 add_executable(list ce_list_test.cpp)
 target_link_libraries(list cetester cebase)
+
+add_executable(string ce_string_test.cpp)
+target_link_libraries(string cetester cebase)
