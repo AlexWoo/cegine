@@ -48,3 +48,6 @@ target_link_libraries(list cetester cebase)
 
 add_executable(string ce_string_test.cpp)
 target_link_libraries(string cetester cebase)
+
+add_executable(key ce_key_test.cpp)
+target_link_libraries(key cetester cebase)
